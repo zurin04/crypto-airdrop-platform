@@ -1,0 +1,42 @@
+[Unit]
+Description=Crypto Airdrop Platform
+Documentation=https://github.com/crypto-airdrop-platform
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/crypto-airdrop
+Environment=NODE_ENV=production
+Environment=PORT=3000
+EnvironmentFile=/var/www/crypto-airdrop/.env
+ExecStart=/usr/bin/node dist/index.js
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=mixed
+KillSignal=SIGINT
+TimeoutStopSec=5
+RestartSec=5
+Restart=always
+RestartPreventExitStatus=255
+
+# Output to journal
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=crypto-airdrop
+
+# Security settings
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/www/crypto-airdrop/public/uploads
+ReadWritePaths=/var/log/crypto-airdrop
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=4096
+
+[Install]
+WantedBy=multi-user.target

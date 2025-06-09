@@ -1,0 +1,55 @@
+{
+  "name": "Crypto Airdrop Platform",
+  "description": "Cryptocurrency learning and engagement platform with Web3 integration",
+  "version": "1.0.0",
+  "category": "Web Applications",
+  "webmin_module": {
+    "service_name": "crypto-airdrop",
+    "service_type": "pm2",
+    "config_files": [
+      "/var/www/crypto-airdrop/.env",
+      "/var/www/crypto-airdrop/ecosystem.config.js"
+    ],
+    "log_files": [
+      "/var/log/crypto-airdrop/error.log",
+      "/var/log/crypto-airdrop/out.log",
+      "/var/log/crypto-airdrop/combined.log"
+    ],
+    "web_interface": {
+      "port": 3000,
+      "ssl": false,
+      "path": "/"
+    },
+    "database": {
+      "type": "postgresql",
+      "name": "crypto_airdrop",
+      "user": "crypto_user"
+    },
+    "backup_paths": [
+      "/var/www/crypto-airdrop/public/uploads",
+      "/var/www/crypto-airdrop/.env"
+    ],
+    "management_commands": {
+      "start": "pm2 start ecosystem.config.js",
+      "stop": "pm2 stop crypto-airdrop",
+      "restart": "pm2 restart crypto-airdrop",
+      "status": "pm2 status crypto-airdrop",
+      "logs": "pm2 logs crypto-airdrop",
+      "update": "./update.sh",
+      "backup": "./backup.sh"
+    }
+  },
+  "requirements": {
+    "nodejs": ">=20.0.0",
+    "npm": ">=10.0.0",
+    "postgresql": ">=12.0",
+    "apache2": ">=2.4",
+    "pm2": ">=5.0.0"
+  },
+  "ports": {
+    "application": 3000,
+    "database": 5432,
+    "web": 80,
+    "ssl": 443
+  }
+}
